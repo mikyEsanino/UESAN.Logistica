@@ -15,6 +15,8 @@ public partial class LogisticaDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Category> Category { get; set; }
+
     public virtual DbSet<Product> Product { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,6 +25,15 @@ public partial class LogisticaDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(100)
+                .IsFixedLength()
+                .HasColumnName("description");
+        });
+
         modelBuilder.Entity<Product>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("id");
